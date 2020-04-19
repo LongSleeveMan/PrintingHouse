@@ -4,7 +4,7 @@
 from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-
+from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
 
 # Config
@@ -31,9 +31,13 @@ orange = '#ff9933'
 class Main(BoxLayout):
     def __init__(self, **kwargs):
         super(Main, self).__init__(**kwargs)
+        Window.bind(on_dropfile=self._on_file_drop)
 
     def proces1(self):
         print('Proces1')
+
+    def _on_file_drop(self, window, disc_path):
+        print('FILE PATH', disc_path)
 
 
 # mainApp class
