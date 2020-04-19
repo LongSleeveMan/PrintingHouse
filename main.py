@@ -33,6 +33,9 @@ class Main(BoxLayout):
         super(Main, self).__init__(**kwargs)
 
 
+    def  proces1(self):
+        print('Proces1')
+
 # mainApp class
 class mainApp(App):
 

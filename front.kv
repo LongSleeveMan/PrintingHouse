@@ -10,6 +10,7 @@
 #:set overall_bcolor hex('#07425e')
 
 <Main>:
+    orientation : 'vertical'
     bcolor: white
     canvas.before:
         Color:
@@ -18,3 +19,9 @@
             pos: self.pos
             size: self.size
 
+    BoxLayout:
+        size_hint_y: None
+        height: 300
+        Button:
+            text: 'Proces1'
+            on_press: root.proces1
