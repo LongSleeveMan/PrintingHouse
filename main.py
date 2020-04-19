@@ -18,26 +18,26 @@ Config.write()
 # Builder used to load all the kivy files to be loaded in the main.py file
 # Builder.load_file('front.kv')
 
-#colors
+# colors
 light_red = '#f11f5f'
 green = '#80d859'
 light_blue = '#56c2f7'
 lighter_blue = '#7fcdf3'
-light_gray ='#f2f2f2'
+light_gray = '#f2f2f2'
 white = '#ffffff'
 orange = '#ff9933'
 
 
 class Main(BoxLayout):
-    def __init__(self,**kwargs):
+    def __init__(self, **kwargs):
         super(Main, self).__init__(**kwargs)
 
-
-    def  proces1(self):
+    def proces1(self):
         print('Proces1')
 
+
 # mainApp class
-class mainApp(App):
+class MainApp(App):
 
     def build(self):
         self.title = "PrintingHouse"
@@ -47,5 +47,5 @@ class mainApp(App):
 
 # BoilerPlate
 if __name__ == '__main__':
-    app = mainApp()
+    app = MainApp()
     app.run()

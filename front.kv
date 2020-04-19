@@ -1,13 +1,23 @@
 #:import hex kivy.utils.get_color_from_hex
 #:import SlideTransition kivy.uix.screenmanager.SlideTransition
 #:import utils kivy.utils
+#:import Factory kivy.factory.Factory
+
 
 #:set navy_blue hex('#07425e')
 #:set orange hex('#ff9933')
 #:set light_gray hex('#f2f2f2')
+#:set gray hex('#f2f2f2')
 #:set dark_gray hex('#c2c2c2')
 #:set white hex('#ffffff')
+#:set black hex('#000000')
 #:set overall_bcolor hex('#07425e')
+
+
+<Label>
+    background_normal: ''
+    color: black
+    text_size: self.size
 
 <Main>:
     orientation : 'vertical'
@@ -21,7 +31,112 @@
 
     BoxLayout:
         size_hint_y: None
-        height: 300
-        Button:
-            text: 'Proces1'
-            on_press: root.proces1()
+        height: 100
+        Label:
+            text: 'Procesy'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: None
+            width: 240
+            Label:
+                text: 'Koperta'
+
+            BoxLayout:
+                Label:
+                    text: 'Nakład:'
+                TextInput:
+                    size_hint: None, None
+                    size: 120, 20
+                    hint_text: 'xxxxx'
+        Label:
+            text: 'Projekt'
+
+    BoxLayout:
+        size_hint_y: .4
+        BoxLayout:
+            orientation: 'vertical'
+    
+            Label:
+                text: 'Cięcie'
+
+    
+            RelativeLayout:
+                id: r1
+                size_hint: .7, None
+                height: 50
+
+                AsyncImage:
+                    id: proces1
+                    size_hint_x: None
+                    width: 50
+                    pos_hint_x: 0
+                    source: 'img/proces.png'
+
+                Label:
+                    text: 'Proces1'
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'top':1}
+                    height: r1.height/2
+                    size_hint: None, None
+
+                Label:
+                    text: 'kolor'
+                    height: r1.height/2
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'y':0}
+                    size_hint: None, None
+     
+            RelativeLayout:
+                size_hint: .7, None
+                height: 50
+                AsyncImage:
+                    size_hint_x: None
+                    width: 50
+                    pos_hint_x: 0
+                    source: 'img/proces.png'
+                Label:
+                    text: 'Proces1'
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'top':1}
+                    height: r1.height/2
+                    size_hint: None, None
+                Label:
+                    text: 'kolor'
+                    height: r1.height/2
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'y':0}
+                    size_hint: None, None
+
+            RelativeLayout:
+                id: r1
+                size_hint: .7, None
+                height: 50
+                AsyncImage:
+                    size_hint_x: None
+                    width: 50
+                    pos_hint_x: 0
+                    source: 'img/proces.png'
+                Label:
+                    text: 'Proces1'
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'top':1}
+                    height: r1.height/2
+                    size_hint: None, None
+                Label:
+                    text: 'kolor'
+                    height: r1.height/2
+                    pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'y':0}
+                    size_hint: None, None
+
+        RelativeLayout:
+            id: rl
+            Label:
+                id: lbl
+                size_hint: None, None
+                size: 120, 20
+                text: 'Nazwa papieru:'
+                pos_hint: {'x':0, 'top':1}
+
+            TextInput:
+                size_hint: None, None
+                size: 120, 20
+                pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+
+
+    BoxLayout:
