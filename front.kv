@@ -19,8 +19,10 @@
     color: black
     text_size: self.size
 
-<Main>:
-    orientation : 'vertical'
+<Label>
+    background_normal: ''
+    halign: 'center'
+    valign: 'middle'
     bcolor: white
     canvas.before:
         Color:
@@ -29,14 +31,45 @@
             pos: self.pos
             size: self.size
 
+<BoxLayout>
+    bcolor: white
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Main>:
+    orientation : 'vertical'
+    spacing: 1
+    big_font: 30
+    bcolor: black
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
+        spacing: 1
         size_hint_y: None
         height: 100
+        bcolor: black
+        canvas.before:
+            Color:
+                rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+            Rectangle:
+                pos: self.pos
+                size: self.size
         Label:
             text: 'Procesy'
+            font_size: root.big_font
 
         BoxLayout:
             orientation: 'vertical'
+            spacing: 1
             size_hint_x: None
             width: 240
             Label:
@@ -51,12 +84,22 @@
                     hint_text: 'xxxxx'
         Label:
             text: 'Projekt'
+            font_size: root.big_font
 
     BoxLayout:
-        size_hint_y: .4
+        size_hint_y: .5
+        spacing: 1
+        bcolor: black
+        canvas.before:
+            Color:
+                rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
         BoxLayout:
             orientation: 'vertical'
-    
+            spacing: 1
             Label:
                 text: 'Cięcie'
 
@@ -124,19 +167,48 @@
                     pos_hint: {'x': (r1.width - proces1.width)/root.width/2, 'y':0}
                     size_hint: None, None
 
-        RelativeLayout:
+        BoxLayout:
             id: rl
-            Label:
-                id: lbl
-                size_hint: None, None
-                size: 120, 20
-                text: 'Nazwa papieru:'
-                pos_hint: {'x':0, 'top':1}
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: None
+                width: 120
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Nazwa papieru:'
+                    #pos_hint: {'x':0, 'top':1}
 
-            TextInput:
-                size_hint: None, None
-                size: 120, 20
-                pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+                TextInput:
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
 
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Szerokosc:'
+                    #pos_hint: {'x':0, 'top':1}
 
+                TextInput:
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Wysokosc:'
+                    #pos_hint: {'x':0, 'top':1}
+
+                TextInput:
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+
+                BoxLayout:
+            BoxLayout:
     BoxLayout:

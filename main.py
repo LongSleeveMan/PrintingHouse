@@ -10,7 +10,7 @@ from kivy.utils import get_color_from_hex
 # Config
 Config.set('graphics', 'multisamples', '0')
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
-Config.set('graphics', 'width', '1280')
+Config.set('graphics', 'width', '720')
 Config.set('graphics', 'height', '720')
 Config.set('kivy', 'exit_on_escape', '0')
 Config.write()
