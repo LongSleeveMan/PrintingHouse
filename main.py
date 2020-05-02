@@ -38,24 +38,30 @@ class Main(BoxLayout):
         print('Proces1')
 
     def resize(self):
+        print('RESIZE')
         image = Image.open(self.path)
+        path = str(self.path)
         size_x = self.ids.project_view.size[0]
-        print(' Image size', image.size)
+        print('     Image size', image.size)
         coef = size_x/image.size[0]
-        base, file = os.path.split(self.path)
-        
+        base, file = os.path.split(path)
+        file = str(file)
+        print('     File1', file, type(file))
         file = file.split('.')
-        print('     File', file)
+        print('     File2', file)
         thumb_size = [image.size[0]*coef, image.size[1]*coef]
         image.thumbnail(thumb_size)
         self.ids.project_view.size = thumb_size
 
-        print('     Filename', file[0])
-
-        dir = os.path.join(os.environ["HOMEPATH"], '/Desktop/PringintHouse/Thumbs')
+        dir = os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], '/Desktop/PrintingHouse/Thumbs')
+        print('     Dir', dir)
         if not os.path.exists(dir):
+            print('     Path not exists')
             os.makedirs(dir)
-        path = os.path.join(dir, '{}.png'.format(file[0]))
+        else:
+            print('     Path exists')
+        print('     str', str(file[0]))
+        path = os.path.join(dir, '{}.png'.format(str(file[0])))
         print('     Path', path)     
         image.save(path)
         self.ids.project_view.source = path
