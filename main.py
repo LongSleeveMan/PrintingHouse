@@ -5,6 +5,8 @@ from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
+import os
+from PIL import Image
 from kivy.utils import get_color_from_hex
 
 # Config
@@ -16,7 +18,6 @@ Config.set('kivy', 'exit_on_escape', '0')
 Config.write()
 
 # Builder used to load all the kivy files to be loaded in the main.py file
-# Builder.load_file('front.kv')
 
 # colors
 light_red = '#f11f5f'
@@ -36,9 +37,34 @@ class Main(BoxLayout):
     def proces1(self):
         print('Proces1')
 
-    def _on_file_drop(self, window, disc_path):
-        print('FILE PATH', disc_path)
+    def resize(self):
+        image = Image.open(self.path)
+        size_x = self.ids.project_view.size[0]
+        print(' Image size', image.size)
+        coef = size_x/image.size[0]
+        base, file = os.path.split(self.path)
+        
+        file = file.split('.')
+        print('     File', file)
+        thumb_size = [image.size[0]*coef, image.size[1]*coef]
+        image.thumbnail(thumb_size)
+        self.ids.project_view.size = thumb_size
 
+        print('     Filename', file[0])
+
+        dir = os.path.join(os.environ["HOMEPATH"], '/Desktop/PringintHouse/Thumbs')
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        path = os.path.join(dir, '{}.png'.format(file[0]))
+        print('     Path', path)     
+        image.save(path)
+        self.ids.project_view.source = path
+
+
+    def _on_file_drop(self, window, path):
+        print('FILE PATH', path)
+        self.path = path
+        self.resize()
 
 # mainApp class
 class MainApp(App):

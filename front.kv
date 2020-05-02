@@ -209,6 +209,14 @@
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
 
+
                 BoxLayout:
-            BoxLayout:
+                                    
+            RelativeLayout:
+                BoxLayout:
+                    id: project_place
+                    size_hint: .7, .7
+                    pos_hint: {'center_x':.7, 'center_y':.5}
+                Image:
+                    id: project_view
     BoxLayout:
