@@ -52,8 +52,9 @@ class Main(BoxLayout):
         thumb_size = [image.size[0]*coef, image.size[1]*coef]
         image.thumbnail(thumb_size)
         self.ids.project_view.size = thumb_size
-
-        dir = os.path.join(os.environ["HOMEDRIVE"], os.environ["HOMEPATH"], '/Desktop/PrintingHouse/Thumbs')
+        #dir = '{}/{}//Desktop/PrintingHouse/Thumbs/'.format(os.environ['HOMEDRIVE'],os.environ["HOMEPATH"])
+        dir = os.path.join(os.environ['HOMEDRIVE'], '/Program Files/PrintingHouse/Thumbs')
+        #dir = os.path.join(os.environ['HOMEDRIVE'],os.environ["HOMEPATH"], '/Desktop/PrintingHouse/Thumbs')
         print('     Dir', dir)
         if not os.path.exists(dir):
             print('     Path not exists')
