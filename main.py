@@ -122,25 +122,23 @@ class Main(BoxLayout):
                 rows = math.ceil(sheet_x / (height + margins))
 
             layout = GridLayout(cols=cols, rows=rows)
+            layout_y = 0.6 * self.ids.layout.height
+            layout_x = layout_y * (width/height)
 
-            img = Img()
-            img.ids.img.source = self.path
-
-            self.ids.project_space.add_widget(layout)
+            self.ids.project_space.width = 0.6*self.ids.project_space.height*(width/height)
 
             for i in range(cols*rows):
-
+                img = Img()
+                img.ids.img.source = self.path
                 layout.add_widget(img)
 
+            self.ids.project_space.add_widget(layout)
             print("CALCULATIONS", cols, rows)
         else:
             print('Text:\n', text)
 
-
-
         #coef_x = int(sheet_x / height)
         #coef_y = int(sheet_y / width)
-
 
 
     def _on_file_drop(self, window, path):

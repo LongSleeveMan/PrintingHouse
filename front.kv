@@ -275,6 +275,7 @@
 
     BoxLayout:
         RelativeLayout:
+            id: layout
             spacing: 1
             Label:
                 id: summary
@@ -290,4 +291,4 @@
                         size: self.size
             BoxLayout:
                 id: project_space
-                pos_hint: {'center_x': summary.width/root.width + root.width/2, 'y':0}
+                pos_hint: {'center_x': summary.width/root.width + 0.5, 'y':0}
