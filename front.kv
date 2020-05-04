@@ -18,9 +18,6 @@
     background_normal: ''
     color: black
     text_size: self.size
-
-<Label>
-    background_normal: ''
     halign: 'center'
     valign: 'middle'
     bcolor: white
@@ -39,6 +36,11 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+<Img>
+    Image:
+        id: img
+
 
 <Main>:
     orientation : 'vertical'
@@ -87,7 +89,8 @@
             font_size: root.big_font
 
     BoxLayout:
-        size_hint_y: .5
+        size_hint_y: None
+        height: 300
         spacing: 1
         bcolor: black
         canvas.before:
@@ -181,6 +184,7 @@
                     #pos_hint: {'x':0, 'top':1}
 
                 TextInput:
+                    id: paper_name
                     size_hint: None, None
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
@@ -193,6 +197,8 @@
                     #pos_hint: {'x':0, 'top':1}
 
                 TextInput:
+                    id: width
+                    text: '100'
                     size_hint: None, None
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
@@ -205,18 +211,83 @@
                     #pos_hint: {'x':0, 'top':1}
 
                 TextInput:
+                    id: height
+                    text: '50'
                     size_hint: None, None
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
 
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Marginesy:'
+                    #pos_hint: {'x':0, 'top':1}
 
+                TextInput:
+                    id: margins
+                    text: '10'
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Arkusz X:'
+                    #pos_hint: {'x':0, 'top':1}
+
+                TextInput:
+                    id: sheet_x
+                    text: '1000'
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+
+                Label:
+                    id: lbl
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Arkusz Y:'
+                    #pos_hint: {'x':0, 'top':1}
+
+                TextInput:
+                    id: sheet_y
+                    text: '700'
+                    size_hint: None, None
+                    size: 120, 20
+                    #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
+                Button:
+                    size_hint: None, None
+                    size: 120, 20
+                    text: 'Rozmieść'
+                    on_press: root.calculate()
                 BoxLayout:
-                                    
+
             RelativeLayout:
                 BoxLayout:
-                    id: project_place
+
                     size_hint: .7, .7
                     pos_hint: {'center_x':.7, 'center_y':.5}
                 Image:
                     id: project_view
+
     BoxLayout:
+        RelativeLayout:
+            spacing: 1
+            Label:
+                id: summary
+                size_hint: None, None
+                size: 160, 70
+                pos_hint: {'x':0, 'y':.0}
+                bcolor: gray
+                canvas.before:
+                    Color:
+                        rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            BoxLayout:
+                id: project_space
+                pos_hint: {'center_x': summary.width/root.width + root.width/2, 'y':0}

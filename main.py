@@ -4,9 +4,13 @@
 from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
 from kivy.core.window import Window
 import os
 from PIL import Image
+import math
+
 from kivy.utils import get_color_from_hex
 
 # Config
@@ -28,14 +32,17 @@ light_gray = '#f2f2f2'
 white = '#ffffff'
 orange = '#ff9933'
 
+class Img(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(Img, self).__init__(**kwargs)
+
 
 class Main(BoxLayout):
+
     def __init__(self, **kwargs):
         super(Main, self).__init__(**kwargs)
         Window.bind(on_dropfile=self._on_file_drop)
-
-    def proces1(self):
-        print('Proces1')
 
     def resize(self):
         print('RESIZE')
@@ -52,9 +59,7 @@ class Main(BoxLayout):
         thumb_size = [image.size[0]*coef, image.size[1]*coef]
         image.thumbnail(thumb_size)
         self.ids.project_view.size = thumb_size
-        #dir = '{}/{}//Desktop/PrintingHouse/Thumbs/'.format(os.environ['HOMEDRIVE'],os.environ["HOMEPATH"])
-        dir = os.path.join(os.environ['HOMEDRIVE'], '/Program Files/PrintingHouse/Thumbs')
-        #dir = os.path.join(os.environ['HOMEDRIVE'],os.environ["HOMEPATH"], '/Desktop/PrintingHouse/Thumbs')
+        dir = '{}/{}//Desktop/PrintingHouse/Thumbs/'.format(os.environ['HOMEDRIVE'],os.environ["HOMEPATH"])
         print('     Dir', dir)
         if not os.path.exists(dir):
             print('     Path not exists')
@@ -62,10 +67,80 @@ class Main(BoxLayout):
         else:
             print('     Path exists')
         print('     str', str(file[0]))
-        path = os.path.join(dir, '{}.png'.format(str(file[0])))
-        print('     Path', path)     
-        image.save(path)
-        self.ids.project_view.source = path
+        self.path = os.path.join(dir, '{}.png'.format(str(file[0])))
+        print('     Path', self.path)
+        image.save(self.path)
+        self.ids.project_view.source = self.path
+
+    def int_valid(self, x):
+
+        try:
+            int(x)
+        except:
+            return 0
+        else:
+            return 1
+
+    def calculate(self):
+        print('CALCULATE')
+        width = self.ids.width.text
+        height = self.ids.height.text
+        margins = self.ids.margins.text
+        sheet_x = self.ids.sheet_x.text
+        sheet_y = self.ids.sheet_y.text
+
+        text = ""
+        if not self.int_valid(width):
+            text = 'Szerokość niepoprawna\n'
+        if not self.int_valid(height):
+            text += 'Wysokość niepoprawna\n'
+        if not self.int_valid(margins):
+            text += 'Margines niepoprawny\n'
+        if not self.int_valid(sheet_x):
+            text += 'Szerokość arkusza niepoprawna\n'
+        if not self.int_valid(sheet_y):
+            text += 'Wysokość arkusza niepoprawna\n'
+
+        print('     int', int(4.9), 'ceil', math.ceil(4.9))
+        if text == "":
+            width = int(width)
+            height = int(height)
+            margins = int(margins)
+            sheet_x = int(sheet_x)
+            sheet_y = int(sheet_y)
+
+            xx = int(sheet_x / (width + margins)) * int(sheet_y / (height + margins))
+            xy = int(sheet_y / (width + margins)) * int(sheet_x / (height + margins))
+
+            if xx > xy:
+                cols = int(sheet_x / (width + margins))
+                print('     cols', cols, sheet_x / (width + margins) )
+                rows = int(sheet_y / (height+ margins))
+                print('     rows', rows, sheet_y / (height+ margins))
+            else:
+                cols = math.ceil(sheet_y / (width + margins))
+                rows = math.ceil(sheet_x / (height + margins))
+
+            layout = GridLayout(cols=cols, rows=rows)
+
+            img = Img()
+            img.ids.img.source = self.path
+
+            self.ids.project_space.add_widget(layout)
+
+            for i in range(cols*rows):
+
+                layout.add_widget(img)
+
+            print("CALCULATIONS", cols, rows)
+        else:
+            print('Text:\n', text)
+
+
+
+        #coef_x = int(sheet_x / height)
+        #coef_y = int(sheet_y / width)
+
 
 
     def _on_file_drop(self, window, path):
