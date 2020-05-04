@@ -198,7 +198,7 @@
 
                 TextInput:
                     id: width
-                    text: '100'
+                    text: '120'
                     size_hint: None, None
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
@@ -212,7 +212,7 @@
 
                 TextInput:
                     id: height
-                    text: '50'
+                    text: '90'
                     size_hint: None, None
                     size: 120, 20
                     #pos_hint: {'x':0, 'top': 1 - lbl.height/rl.height}
@@ -291,4 +291,12 @@
                         size: self.size
             BoxLayout:
                 id: project_space
-                pos_hint: {'center_x': summary.width/root.width + 0.5, 'y':0}
+                pos_hint: {'center_x': summary.width/root.width + .5, 'center_y': .5}
+                size_hint: None, None
+                bcolor: gray
+                canvas.before:
+                    Color:
+                        rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size

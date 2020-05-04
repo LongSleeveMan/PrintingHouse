@@ -121,12 +121,14 @@ class Main(BoxLayout):
                 cols = math.ceil(sheet_y / (width + margins))
                 rows = math.ceil(sheet_x / (height + margins))
 
-            layout = GridLayout(cols=cols, rows=rows)
-            layout_y = 0.6 * self.ids.layout.height
-            layout_x = layout_y * (width/height)
+            layout = GridLayout(cols=cols, rows=rows, size_hint=(None, None))
 
-            self.ids.project_space.width = 0.6*self.ids.project_space.height*(width/height)
+            project_y = 0.7 * self.ids.layout.height
+            project_x = project_y * (sheet_x / sheet_y)
 
+            self.ids.project_space.size = (project_x, project_y)
+            layout.size = (cols * (width / sheet_x) * self.ids.project_space.size[0], rows * (height / sheet_y) * self.ids.project_space.size[1],
+            print('     project size',self.ids.project_space.size, '/',  self.ids.layout.size)
             for i in range(cols*rows):
                 img = Img()
                 img.ids.img.source = self.path
