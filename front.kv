@@ -38,9 +38,17 @@
             size: self.size
 
 <Img>
+    angle: 0
+    source: ''
+    canvas.before:
+        Rotate:
+            angle: root.angle
+            axis: 0, 0, 1
+            origin: self.center
+
     Image:
         id: img
-
+        source: root.source
 
 <Main>:
     orientation : 'vertical'
@@ -293,7 +301,7 @@
                 id: project_space
                 pos_hint: {'center_x': summary.width/root.width + .5, 'center_y': .5}
                 size_hint: None, None
-                bcolor: gray
+                bcolor: black
                 canvas.before:
                     Color:
                         rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor

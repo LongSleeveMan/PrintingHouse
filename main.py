@@ -34,15 +34,18 @@ orange = '#ff9933'
 
 class Img(BoxLayout):
 
-    def __init__(self, **kwargs):
+    def __init__(self, angle, source, **kwargs):
         super(Img, self).__init__(**kwargs)
-
+        self.angle = angle
+        self.source = source
 
 class Main(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Main, self).__init__(**kwargs)
         Window.bind(on_dropfile=self._on_file_drop)
+
+
 
     def resize(self):
         print('RESIZE')
@@ -69,6 +72,8 @@ class Main(BoxLayout):
         print('     str', str(file[0]))
         self.path = os.path.join(dir, '{}.png'.format(str(file[0])))
         print('     Path', self.path)
+
+
         image.save(self.path)
         self.ids.project_view.source = self.path
 
@@ -101,7 +106,6 @@ class Main(BoxLayout):
         if not self.int_valid(sheet_y):
             text += 'Wysokość arkusza niepoprawna\n'
 
-        print('     int', int(4.9), 'ceil', math.ceil(4.9))
         if text == "":
             width = int(width)
             height = int(height)
@@ -109,29 +113,45 @@ class Main(BoxLayout):
             sheet_x = int(sheet_x)
             sheet_y = int(sheet_y)
 
+            print('     widht', width, 'height', height, 'margins', margins, 'sheet_x', sheet_x, 'sheet_y', sheet_y)
+
             xx = int(sheet_x / (width + margins)) * int(sheet_y / (height + margins))
             xy = int(sheet_y / (width + margins)) * int(sheet_x / (height + margins))
 
+            print('     xx', xx, 'xy', xy)
+
+            angle = 0
             if xx > xy:
                 cols = int(sheet_x / (width + margins))
-                print('     cols', cols, sheet_x / (width + margins) )
                 rows = int(sheet_y / (height+ margins))
-                print('     rows', rows, sheet_y / (height+ margins))
-            else:
-                cols = math.ceil(sheet_y / (width + margins))
-                rows = math.ceil(sheet_x / (height + margins))
 
-            layout = GridLayout(cols=cols, rows=rows, size_hint=(None, None))
+            else:
+                print('     else', height + margins, '/', width + margins)
+                cols = int(sheet_x / (height + margins))
+                rows = int(sheet_y / (width + margins))
+                angle = 90
+                #image = Image.open(self.path)
+                #image = image.rotate(angle)
+                #image.save(self.path)
+
+            print('     cols', cols, 'rows', rows)
+
+            layout = GridLayout(cols=cols, rows=rows, size_hint=(None, None), spacing=1)
 
             project_y = 0.7 * self.ids.layout.height
             project_x = project_y * (sheet_x / sheet_y)
 
             self.ids.project_space.size = (project_x, project_y)
-            layout.size = (cols * (width / sheet_x) * self.ids.project_space.size[0], rows * (height / sheet_y) * self.ids.project_space.size[1],
+
+            layout_x = cols * (width / sheet_x) * self.ids.project_space.size[0]
+            layout_y =  rows * (height / sheet_y) * self.ids.project_space.size[1]
+
+            layout.size = (layout_x, layout_y)
             print('     project size',self.ids.project_space.size, '/',  self.ids.layout.size)
+
             for i in range(cols*rows):
-                img = Img()
-                img.ids.img.source = self.path
+                img = Img(angle=angle, source=self.path)
+                angle = 0
                 layout.add_widget(img)
 
             self.ids.project_space.add_widget(layout)
