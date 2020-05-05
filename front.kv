@@ -11,8 +11,16 @@
 #:set dark_gray hex('#c2c2c2')
 #:set white hex('#ffffff')
 #:set black hex('#000000')
+#:set red hex('#FF0000')
+
 #:set overall_bcolor hex('#07425e')
 
+<TextInput>
+    allow_copy: True
+
+    padding_y: ( self.height - self.line_height ) / 2
+    cursor_color: navy_blue
+    background_active: ''
 
 <Label>
     background_normal: ''
@@ -37,18 +45,36 @@
             pos: self.pos
             size: self.size
 
+
+
 <Img>
     angle: 0
     source: ''
+    coef_x: 1
+    coef_y: 1
+    bcolor: white
     canvas.before:
-        Rotate:
-            angle: root.angle
-            axis: 0, 0, 1
-            origin: self.center
+        Color:
+            rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     Image:
-        id: img
+        pos_hint:{'center_x':.5, 'center_y':.5}
+        size_hint: None, None
+        size: root.width * root.coef_x, root.height * root.coef_y
+
         source: root.source
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: root.angle
+                axis: 0, 0, 1
+                origin: self.center
+
+        canvas.after:
+            PopMatrix
 
 <Main>:
     orientation : 'vertical'
@@ -87,7 +113,7 @@
 
             BoxLayout:
                 Label:
-                    text: 'Nakład:'
+                    text: 'Naklad:'
                 TextInput:
                     size_hint: None, None
                     size: 120, 20
@@ -112,7 +138,7 @@
             orientation: 'vertical'
             spacing: 1
             Label:
-                text: 'Cięcie'
+                text: 'Ciecie'
 
     
             RelativeLayout:
@@ -269,7 +295,7 @@
                 Button:
                     size_hint: None, None
                     size: 120, 20
-                    text: 'Rozmieść'
+                    text: 'Rozmiesc'
                     on_press: root.calculate()
                 BoxLayout:
 
@@ -297,11 +323,13 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-            BoxLayout:
+            StackLayout:
                 id: project_space
+                orientation: 'lr-tb'
                 pos_hint: {'center_x': summary.width/root.width + .5, 'center_y': .5}
                 size_hint: None, None
-                bcolor: black
+                size: 0, 0
+                bcolor: red
                 canvas.before:
                     Color:
                         rgba: (0, 0, 0, 1)  if self.bcolor is None else self.bcolor

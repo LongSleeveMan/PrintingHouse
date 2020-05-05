@@ -5,6 +5,7 @@ from kivy.config import Config
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.image import Image
 from kivy.core.window import Window
 import os
@@ -34,18 +35,18 @@ orange = '#ff9933'
 
 class Img(BoxLayout):
 
-    def __init__(self, angle, source, **kwargs):
+    def __init__(self, angle, source, coef_x, coef_y, **kwargs):
         super(Img, self).__init__(**kwargs)
         self.angle = angle
         self.source = source
+        self.coef_x = coef_x
+        self.coef_y = coef_y
 
 class Main(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Main, self).__init__(**kwargs)
         Window.bind(on_dropfile=self._on_file_drop)
-
-
 
     def resize(self):
         print('RESIZE')
@@ -120,38 +121,37 @@ class Main(BoxLayout):
 
             print('     xx', xx, 'xy', xy)
 
-            angle = 0
+            project_y = 0.7 * self.ids.layout.height
+            project_x = project_y * (sheet_x / sheet_y)
+            self.ids.project_space.size = (project_x, project_y)
+
             if xx > xy:
                 cols = int(sheet_x / (width + margins))
                 rows = int(sheet_y / (height+ margins))
+                layout_x = cols * ((width + margins) / sheet_x) * project_x
+                layout_y = rows * ((height + margins) / sheet_y) * project_y
+                angle = 0
 
             else:
                 print('     else', height + margins, '/', width + margins)
                 cols = int(sheet_x / (height + margins))
                 rows = int(sheet_y / (width + margins))
+                layout_x = cols * ((height + margins) / sheet_x) * project_x
+                layout_y = rows * ((width + margins) / sheet_y) * project_y
                 angle = 90
-                #image = Image.open(self.path)
-                #image = image.rotate(angle)
-                #image.save(self.path)
 
             print('     cols', cols, 'rows', rows)
 
             layout = GridLayout(cols=cols, rows=rows, size_hint=(None, None), spacing=1)
 
-            project_y = 0.7 * self.ids.layout.height
-            project_x = project_y * (sheet_x / sheet_y)
-
-            self.ids.project_space.size = (project_x, project_y)
-
-            layout_x = cols * (width / sheet_x) * self.ids.project_space.size[0]
-            layout_y =  rows * (height / sheet_y) * self.ids.project_space.size[1]
-
             layout.size = (layout_x, layout_y)
-            print('     project size',self.ids.project_space.size, '/',  self.ids.layout.size)
+            print('     project size',self.ids.project_space.size, 'layout size',  self.ids.layout.size)
 
+            coef_x = width / (width + 2 * margins)
+            coef_y = height / (height + 2* margins)
+            print('     project size', self.ids.project_space.size, 'layout size', self.ids.layout.size, coef_x, coef_y)
             for i in range(cols*rows):
-                img = Img(angle=angle, source=self.path)
-                angle = 0
+                img = Img(angle=angle, source=self.path, coef_x=coef_x, coef_y=coef_y  )
                 layout.add_widget(img)
 
             self.ids.project_space.add_widget(layout)
